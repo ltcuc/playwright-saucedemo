@@ -9,11 +9,8 @@
     "postinstall": "npx playwright install --with-deps", 
 
     // Lệnh chạy kiểm thử E2E chính (Phục vụ cho CI Runner)
-    "test:ci": "npx playwright test --reporter=list,junit",
+    "test:ci": "npx playwright test --reporter=list,junit"
     // Sử dụng reporter 'list' (log ra terminal) và 'junit' (để CI system đọc kết quả)
-    "devDependencies": {
-    "@playwright/test": "^1.x.x"
-  }
   },
   "keywords": [],
   "author": "",
