@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "npx playwright install --with-deps",
-    "test:ci": "npx playwright tests/login.ddt.spec.ts --reporter=list,junit"
+    "test:ci": "npx playwright test tests/login.ddt.spec.ts --reporter=list,junit"
   },
   "keywords": [],
   "author": "",
