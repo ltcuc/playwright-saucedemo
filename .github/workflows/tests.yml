@@ -42,11 +42,16 @@ jobs:
       run: npm run test:ci 
       
     # 2.6. Tải lên Báo cáo (Upload Artifacts)
-    # Bước này giúp Sếp xem báo cáo HTML nếu test thất bại
+# File: .github/workflows/tests.yml (Chỉ sửa bước chạy test)
+    # ...
+    - name: Run Playwright tests
+      # Thêm tùy chọn --output và --reporter để đảm bảo tạo thư mục playwright-report
+      run: npx playwright test --reporter=list,junit,html --output=playwright-report
+      
     - name: Upload Test Report (on failure or success)
-      if: always() # Đảm bảo bước này luôn chạy, ngay cả khi các bước trước bị lỗi
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: playwright-html-report
-        path: playwright-report/
-        retention-days: 5 # Lưu báo cáo trong 5 ngày
+        path: playwright-report/  # <<< ĐÃ ĐƯỢC TẠO CHÍNH XÁC BỞI LỆNH TRÊN
+        retention-days: 5
