@@ -31,11 +31,6 @@ jobs:
       # npm ci là lệnh sạch và nhanh hơn cho CI
       run: npm ci 
 
-    # 2.4. Cài đặt Trình duyệt Playwright (BẮT BUỘC cho E2E)
-    - name: Install Playwright browsers
-      # Lệnh này tải các trình duyệt Chromium, Firefox, WebKit
-      run: npx playwright install --with-deps
-
     # 2.5. Chạy Kiểm thử E2E
     - name: Run Playwright tests
       # Sử dụng lệnh đã định nghĩa trong package.json
