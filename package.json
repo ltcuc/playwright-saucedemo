@@ -1,16 +1,11 @@
 {
   "name": "playwright-saucedemo",
- 
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-     // Lệnh cài đặt trình duyệt trên máy chủ CI (Rất quan trọng)
-    "postinstall": "npx playwright install --with-deps", 
-
-    // Lệnh chạy kiểm thử E2E chính (Phục vụ cho CI Runner)
+    "postinstall": "npx playwright install --with-deps",
     "test:ci": "npx playwright test --reporter=list,junit"
-    // Sử dụng reporter 'list' (log ra terminal) và 'junit' (để CI system đọc kết quả)
   },
   "keywords": [],
   "author": "",
