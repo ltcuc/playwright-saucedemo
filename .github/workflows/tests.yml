@@ -37,11 +37,6 @@ jobs:
       run: npm run test:ci 
       
     # 2.6. Tải lên Báo cáo (Upload Artifacts)
-# File: .github/workflows/tests.yml (Chỉ sửa bước chạy test)
-    # ...
-    - name: Run Playwright tests
-      # Thêm tùy chọn --output và --reporter để đảm bảo tạo thư mục playwright-report
-      run: npx playwright test --reporter=list,junit,html --output=playwright-report
       
     - name: Upload Test Report (on failure or success)
       if: always()
