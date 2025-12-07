@@ -1,47 +1,58 @@
 name: Playwright E2E Tests (SauceDemo)
 
-# 1. KÍCH HOẠT (Trigger): Xác định khi nào Workflow sẽ chạy
 on:
-  # Chạy khi có code được đẩy (push) lên nhánh chính (main)
   push:
-    branches: [ "main" ]
-  # Chạy khi có Pull Request được mở cho nhánh chính
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
-# 2. CÁC CÔNG VIỆC (Jobs): Định nghĩa các tác vụ cần thực hiện
 jobs:
   test:
-    # Chạy trên hệ điều hành Ubuntu mới nhất (Máy chủ Linux)
     runs-on: ubuntu-latest
-    
+
     steps:
-    # 2.1. Lấy code: Sao chép code từ repository về máy chủ CI
-    - name: Checkout repository code
-      uses: actions/checkout@v4
-    
-    # 2.2. Thiết lập Node.js: Cài đặt phiên bản Node.js (nên dùng LTS)
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20 # Thay đổi nếu Sếp dùng phiên bản khác
+      # 1. Lấy code
+      - name: Checkout repository code
+        uses: actions/checkout@v4
 
-    # 2.3. Cài đặt Phụ thuộc (Dependencies)
-    - name: Install dependencies
-      # npm ci là lệnh sạch và nhanh hơn cho CI
-      run: npm ci 
+      # 2. Thiết lập Node.js (LTS)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
 
-    # 2.5. Chạy Kiểm thử E2E
-    - name: Run Playwright tests
-      # Sử dụng lệnh đã định nghĩa trong package.json
-      run: npm run test:ci 
-      
-    # 2.6. Tải lên Báo cáo (Upload Artifacts)
-      
-    - name: Upload Test Report (on failure or success)
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: playwright-html-report
-        path: playwright-report/  # <<< ĐÃ ĐƯỢC TẠO CHÍNH XÁC BỞI LỆNH TRÊN
-        retention-days: 5
+      # 3. Cache Playwright browsers (tăng tốc run kế tiếp)
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      # 4. Cài dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 5. Chạy E2E tests
+      - name: Run Playwright tests
+        run: npm run test:ci
+
+      # 6. Upload báo cáo HTML (dù pass hay fail)
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: playwright-report/
+          retention-days: 5
+
+      # 7. (Tuỳ chọn) Upload JUnit test results nếu bạn dùng reporter junit
+      - name: Upload JUnit test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results
+          path: test-results/
+          retention-days: 5

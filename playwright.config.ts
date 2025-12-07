@@ -11,8 +11,13 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+const baseURL = "https://www.saucedemo.com";
 export default defineConfig({
   testDir: "./tests",
+  // Thời gian chờ tối đa cho toàn bộ một Test Case (từ đầu đến cuối).
+  expect: {
+    timeout: 5000,
+  },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -24,7 +29,10 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  /* Cấu hình sử dụng chung cho tất cả các dự án. */
   use: {
+    // URL cơ sở cho các lệnh page.goto('/')
+    baseURL: baseURL,
     headless: true,
     launchOptions: {
       slowMo: 1000, // Làm chậm thao tác để quan sát

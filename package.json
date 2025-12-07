@@ -1,13 +1,21 @@
 {
   "name": "playwright-saucedemo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright E2E tests for Saucedemo using TypeScript",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npx playwright install --with-deps",
-    "test:ci": "npx playwright test tests/login.ddt.spec.ts tests/checkout.e2e.spec.ts --reporter=list,junit,html --output=playwright-report"
+    "postinstall": "playwright install --with-deps",
+    "test": "playwright test",
+    "test:ci": "playwright test --reporter=list,junit",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
   },
-  "keywords": [],
+  "keywords": [
+    "playwright",
+    "e2e-tests",
+    "saucedemo",
+    "typescript"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
